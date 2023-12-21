@@ -1,0 +1,28 @@
+NodoServer: clase que almacena la informacion de cada server, dentro se encuentra un vector servers de pares, el que tiene en primera posicion del par a los nodos adyacentes, mientras que
+en la segunda posicion del par la distancia a dicho nodo. Tambien posee un vector con las velocidades, el que tiene mismo indice que el vector servers y por lo tanto indica las 
+velocidades entre las distintas conexiones.
+NodoServer::addServer es una funcion del nodoServer la que añade al vector de par un puntero a nodoServer y la distancia a él.
+nodoServer::addvelocidad añade las velocidades al vector velocidad. Se llama a esta funcion al mismo tiempo que se añade un par a addServer.
+nodoServer::getServers funcion que retorna el vector de pares servers.
+
+void leeServer: Esta funcion lee el archivo servidores.csv y crea y luego almacena todos los servers dentro de un vector de punteros de tipo NodoServer.
+void leeConexiones: Esta funcion lee el archivo conexiones.csv y a cada server dentro de la lista les agrega sus conexiones usando la funcion addServer y addVelocidad.
+int getIdServer: funcion que retorna el id de un server dentro de una lista de servers.
+void bellmanFord: Sus parametros son el vector de todos los nodos,nodo origen y nodo destino.
+En primer lugar se crea un vector de distancias "dist" pero con todas inicializadas como infinito, esto permite que al encontrar una distancia menor entre nodo origen
+y los demás, la lista se actualice con esta distancia.
+Tambien se crea un vector llamado current, permite recorrer y almacenar el vector que se está recorriendo.
+Otro vector es el distancias, es un vector de vectores, este almacena las distancias dentro de un camino, como una matriz pero cada fila representa un camino. Este camino es 
+el mas corto para cada nodo desde el origen.
+Se crea un vector camino donde se guardaran los nodos dentro de un camino, además de un bool inicializado true, que indicará si existe algun cambio en el vector distancia, 
+de esa manera cuando exista un cambio, el ciclo sale y vuelve a realizarse.
+Se agrega al vector current el nodo origen y al vector dist, en  el id e indice del nodo origen, se le da valor de 0.
+
+Dentro del ciclo while, se crea un vector de visitados, cosa que el ciclo no revisite nodos.
+dentro del while existen dos ciclos for, uno que itera sobre los nodos dentro de current, y dentro de este uno donde se itera sobre los nodos adyacentes del nodo origen, en el 
+segundo for existe un if que tiene como condicion que si la distancia (dist) del origen al adyacente (inicializada en infinito) es mayor que la distancia del nodo origen + la 
+distancia entre ambos, entonces la distancia del origen a este adyacente dentro de la lista dist, es ahora la distancia entre nodo y su adyacente. Ademas, el vector camino en el 
+indice del nodo adyacente, es equivalente al nodo origen.
+Se añade el adyacente a la lista de visitados.
+
+Finalmente se crean 3 vectores para separar las velocidades, distancias y nodos del camino mas corto entre el nodo Origen(source) y el nodo destino
