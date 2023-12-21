@@ -25,4 +25,4 @@ distancia entre ambos, entonces la distancia del origen a este adyacente dentro 
 indice del nodo adyacente, es equivalente al nodo origen.
 Se añade el adyacente a la lista de visitados.
 
-Finalmente se crean 3 vectores para separar las velocidades, distancias y nodos del camino mas corto entre el nodo Origen(source) y el nodo destino
+Finalmente se crean 3 vectores para separar las velocidades, distancias y nodos del camino mas corto entre el nodo Origen(source) y el nodo destino.

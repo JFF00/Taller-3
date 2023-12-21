@@ -160,11 +160,15 @@ void menu(){
          cout<<"Ingresar numero de servidor destinatario: "<<endl;
          string destino;
          cin>>destino;
-         cout<<"Tamaño del archivo"<<endl;
-         string tamano;
-         cin>>tamano;
+         while(servers[stoi(origen)]->getType()=="router"){
+            cout<<"Server invalido. Escoger un server cliente"<<endl;
+            cin>>origen;
+         }
          nodoServer *server2=servers[getIdServer(destino,servers)];
-         bellmanFord(server1,server2,stoi(tamano));
+         cout<<"Tamaño del archivo"<<endl;
+         int tamano;
+         cin>>tamano;
+         bellmanFord(server1,server2,tamano);
          break;
        }
       case 2:
