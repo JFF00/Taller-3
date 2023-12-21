@@ -7,7 +7,8 @@
 using namespace std;
 
 void leeServer(vector<nodoServer*>&servers){
-   ifstream archivo("C:/Users/JF/Desktop/xd/xd/servidores.csv",ios::in);
+   string nombrearchivo="servidores.csv";
+   ifstream archivo(nombrearchivo,ios::in);
    if(!archivo){
       cout<<"Error al abrir archivo"<<endl;
    }
@@ -28,7 +29,7 @@ void leeServer(vector<nodoServer*>&servers){
 
 }
 void leeConexiones(vector<nodoServer*>&servers){
-   ifstream archivo("C:/Users/JF/Desktop/xd/xd/conexiones.csv");
+   ifstream archivo("conexiones.csv");
    if(!archivo){
       cout<<"Error al abrir"<<endl;
       }
@@ -62,7 +63,7 @@ void leeConexiones(vector<nodoServer*>&servers){
    }
 }
 int getIdServer(string id,vector<nodoServer*>servers){ //funcion que retorna el indice de un server dentro de una lista de servers.
-   int i;
+   int i=-1;
    for(int i=0;i<servers.size();i++){
       if(stoi(id)==stoi(servers[i]->getId())){
          return i;
@@ -120,16 +121,18 @@ void bellmanFord(nodoServer* origen,nodoServer*destino,int tamano){
    for(auto&distancia:distancias[stoi(destino->getId())]) {
         segundosFinal.push_back(distancia);
     }
-    for(int i=0;i<segundosFinal.size();i++){
-      //cout<<segundosFinal[i]<<"/"<<velocidades[i]<<" ";
-    }
    cout<<endl;
    //finalmente se calculan los tiempos totales segun la velocidad de cada servidor
-   int total=0;
-   for(int i=segundosFinal.size();i>=0;i--){
-      cout<<(tamano/velocidades[i])*segundosFinal[i]<<" seg. | ";
-      total+=(tamano/velocidades[i])*segundosFinal[i];
-      
+   double total=0;
+    for(int i=segundosFinal.size()-1;i>=0;i--){
+      if(tamano<velocidades[i]){
+         total+=1*segundosFinal[i];
+         cout<<segundosFinal[i]<<" seg. |";
+      }
+      else{
+         total+=(tamano/velocidades[i])*segundosFinal[i];
+         cout<<(tamano/velocidades[i])*segundosFinal[i]<<" seg. | ";
+      }
    }
    cout<<"Tiempo total de demora del envío es: "<<total<<" segundos";
     cout<<endl;
@@ -155,8 +158,13 @@ void menu(){
             cout<<"Server invalido. Escoger un server cliente"<<endl;
             cin>>origen;
          }
-         nodoServer* server1=servers[getIdServer(origen,servers)];
          
+         nodoServer* server1=servers[getIdServer(origen,servers)];
+         for(int i=0;i<servers.size();i++){
+            if(servers[i]->getId()==origen){
+               server1=servers[i];;
+            }
+         }
          cout<<"Ingresar numero de servidor destinatario: "<<endl;
          string destino;
          cin>>destino;
@@ -164,7 +172,12 @@ void menu(){
             cout<<"Server invalido. Escoger un server cliente"<<endl;
             cin>>origen;
          }
-         nodoServer *server2=servers[getIdServer(destino,servers)];
+         nodoServer* server2;
+         for(int i=0;i<servers.size();i++){
+            if(servers[i]->getId()==destino){
+               server2=servers[i];;
+            }
+         }
          cout<<"Tamaño del archivo"<<endl;
          int tamano;
          cin>>tamano;
